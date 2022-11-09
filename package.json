@@ -8,9 +8,9 @@
     "type-check": "tsc --noEmit",
     "type-check:watch": "yarn run type-check -- --watch",
     "prebuild": "rimraf dist",
-    "build": "yarn build:types && yarn build:js",
-    "start": "node ./bin/app.js",
-    "start:dev": "nodemon ./src/app.ts"
+    "build": "tsc",
+    "start": "node ./dist/app.js",
+    "start --watch": "nodemon ./src/app.ts"
   },
   "dependencies": {
     "@trpc/server": "^10.0.0-rc.5",
