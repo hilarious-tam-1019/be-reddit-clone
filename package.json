@@ -5,7 +5,10 @@
   "author": "Tam Nguyen",
   "license": "MIT",
   "scripts": {
-    "build": "tsc",
+    "type-check": "tsc --noEmit",
+    "type-check:watch": "yarn run type-check -- --watch",
+    "prebuild": "rimraf dist",
+    "build": "yarn build:types && yarn build:js",
     "start": "node ./bin/app.js",
     "start:dev": "nodemon ./src/app.ts"
   },
@@ -20,7 +23,11 @@
     "zod": "^3.19.1"
   },
   "devDependencies": {
+    "@babel/cli": "^7.19.3",
+    "@babel/core": "^7.20.2",
+    "@babel/preset-env": "^7.20.2",
     "nodemon": "^2.0.20",
+    "rimraf": "^3.0.2",
     "ts-node": "^10.9.1"
   }
 }
