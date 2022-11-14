@@ -1,33 +1,42 @@
 version: '3.7'
 services:
-  # # init redis
-  # redis:
-  #   image: redis
-  #   restart: always
+  # init redis
+  redis:
+    image: redis
+    container_name: redis
+    volumes:
+      - redis:/var/lib/redis
+    networks:
+      - webnet
+    restart: always
 
-  # # init postgres_db
-  # postgres_db:
-  #   image: postgres
-  #   restart: always
-  #   environment:
-  #     - POSTGRES_USER=admin
-  #     - POSTGRES_PASSWORD=secret
-  #     - POSTGRES_DB=reddit
-  #   ports:
-  #     - 5432:5432
-  #   networks:
-  #     - webnet
+  # init postgres_db
+  postgres_db:
+    image: postgres
+    container_name: postgres
+    volumes:
+      - postgres:/var/lib/postgres
+    networks:
+      - webnet
+    restart: always
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=reddit
+    ports:
+      - 5432:5432
 
-  # # init pgadmin for database management
-  # pgadmin:
-  #   image: dpage/pgadmin4
-  #   environment:
-  #     - PGADMIN_DEFAULT_EMAIL=admin@gmail.com
-  #     - PGADMIN_DEFAULT_PASSWORD=secret
-  #   ports:
-  #     - '5050:80'
-  #   networks:
-  #     - webnet
+  # init pgadmin for database management
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@gmail.com
+      - PGADMIN_DEFAULT_PASSWORD=secret
+    ports:
+      - '5050:80'
+    networks:
+      - webnet
 
   server:
     build:
@@ -42,9 +51,13 @@ services:
       - '3000'
     ports:
       - '3000:3000'
+    environment:
+      DB_HOST: postgres_db,
+      REDIS_HOST: redis
     command: yarn dev
-    # environment:
-    #   DB_HOST: postgres_db,
-    #   REDIS_HOST: redis
-# networks:
-#   webnet:
+networks:
+  webnet:
+
+volumes:
+  redis:
+  postgres:
