@@ -1,4 +1,4 @@
-version: '3.3'
+version: '3.7'
 services:
   # # init redis
   # redis:
@@ -33,10 +33,16 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      target: base
     volumes:
-      - .:/usr/src/app
+      - .:/app
+      - ./nodemon.json:/app/nodemon.json
+    container_name: reddit-server
+    expose:
+      - '3000'
     ports:
-      - 5001:3000
+      - '3000:3000'
+    command: yarn dev
     # environment:
     #   DB_HOST: postgres_db,
     #   REDIS_HOST: redis

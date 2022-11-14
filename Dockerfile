@@ -1,18 +1,21 @@
-FROM node:16.15.1-alpine
+FROM node:16.15.1-alpine as base
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
 # copy packages to dir
-COPY package*.json yarn.lock ./
+COPY package.json .
+COPY yarn.lock .
 
 # install dependencies
-RUN yarn && yarn cache clean
-RUN yarn build
+RUN yarn
 
 # bundle the code
 COPY . .
 
-# expose port
-EXPOSE 3000
+# for production stage
+FROM base as production
 
-CMD [ "yarn", "start" ]
+ENV NODE_PATH=./dist
+
+# build
+RUN yarn build
