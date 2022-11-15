@@ -43,6 +43,9 @@ services:
       context: .
       dockerfile: Dockerfile
       target: base
+    depends_on:
+      - redis
+      - postgres_db
     volumes:
       - .:/app
       - ./nodemon.json:/app/nodemon.json
