@@ -7,8 +7,12 @@ COPY package.json .
 COPY yarn.lock .
 COPY prisma ./prisma/
 
+COPY .env ./
+
 # install dependencies
 RUN yarn
+
+RUN npx prisma generate
 
 # bundle the code
 COPY . .
