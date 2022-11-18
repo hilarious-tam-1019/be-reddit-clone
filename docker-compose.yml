@@ -13,7 +13,7 @@ services:
     restart: always
 
   # init postgres_db
-  postgres_db:
+  postgres:
     image: postgres
     container_name: postgres
     volumes:
@@ -21,10 +21,10 @@ services:
     networks:
       - webnet
     restart: always
+    ports:
+      - '5432:5432'
     env_file:
       - .env
-    ports:
-      - 5432:5432
 
   # init pgadmin for database management
   pgadmin:
@@ -44,7 +44,7 @@ services:
       target: base
     depends_on:
       - redis
-      - postgres_db
+      - postgres
     volumes:
       - .:/app
       - ./nodemon.json:/app/nodemon.json

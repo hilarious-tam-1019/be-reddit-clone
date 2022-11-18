@@ -5,13 +5,12 @@ WORKDIR /app
 # copy packages to dir
 COPY package.json .
 COPY yarn.lock .
-COPY prisma ./prisma/
-
-COPY .env ./
+COPY prisma ./prisma
 
 # install dependencies
 RUN yarn
 
+# starting prisma client
 RUN npx prisma generate
 
 # bundle the code
