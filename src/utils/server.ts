@@ -1,5 +1,6 @@
 import express from 'express';
 import { Db } from './db';
+
 export class Server {
   private server;
   private db;
@@ -17,7 +18,7 @@ export class Server {
   public async createServer() {
     try {
       this.config();
-      this.db.connectDb();
+      await this.db.connectDb();
     } catch (err) {
       console.log(`There has been some error: ${err}`);
     }
