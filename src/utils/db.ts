@@ -1,4 +1,6 @@
-import { PrismaClient } from '@prisma/client';
+// fixing trouble from importing prisma
+import Prisma from '@prisma/client';
+const { PrismaClient } = Prisma;
 
 export class Db {
   private prisma;
