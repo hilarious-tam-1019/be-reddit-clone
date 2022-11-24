@@ -8,8 +8,6 @@ services:
       - redis:/var/lib/redis
     networks:
       - webnet
-    env_file:
-      - .env
     restart: always
 
   # init postgres_db
@@ -18,20 +16,23 @@ services:
     container_name: postgres
     volumes:
       - postgres:/var/lib/postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=reddit
     networks:
       - webnet
     restart: always
     ports:
       - '5432:5432'
-    env_file:
-      - .env
 
   # init pgadmin for database management
   pgadmin:
     image: dpage/pgadmin4
     container_name: pgadmin
-    env_file:
-      - .env
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@gmail.command
+      - PGADMIN_DEFAULT_PASSWORD=secret
     ports:
       - '5050:80'
     networks:
@@ -45,17 +46,21 @@ services:
     depends_on:
       - redis
       - postgres
+    environment:
+      - PORT=3000
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/reddit?schema=public
     volumes:
       - .:/app
       - ./nodemon.json:/app/nodemon.json
     container_name: reddit-server
-    expose:
-      - '3000'
     ports:
       - '3000:3000'
-    env_file:
-      - .env
+    expose:
+      - '3000'
     command: yarn dev
+    networks:
+      - webnet
+
 networks:
   webnet:
 
