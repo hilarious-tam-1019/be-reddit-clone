@@ -1,13 +1,11 @@
 import express from 'express';
-import { Db } from './db';
+import prisma from './client';
 
 export class Server {
   private server;
-  private db;
 
   constructor() {
     this.server = express();
-    this.db = new Db();
   }
 
   private config() {
@@ -15,10 +13,20 @@ export class Server {
     this.server.use(express.urlencoded({ extended: true }));
   }
 
+  public async healthCheckDb() {
+    try {
+      await prisma.$queryRaw`SELECT 1`.then(() =>
+        console.log('Database connected ...')
+      );
+    } catch (err) {
+      console.log('Trouble connecting to the database \n', err);
+    }
+  }
+
   public async createServer() {
     try {
       this.config();
-      await this.db.connectDb();
+      await this.healthCheckDb();
     } catch (err) {
       console.log(`There has been some error: ${err}`);
     }
