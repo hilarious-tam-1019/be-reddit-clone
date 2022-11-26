@@ -1,6 +1,7 @@
 import express from 'express';
-import prisma from './client';
+import prisma from './config/prisma-client.config';
 
+const port = process.env['PORT'] || 3000;
 export class Server {
   private server;
 
@@ -8,7 +9,7 @@ export class Server {
     this.server = express();
   }
 
-  private config() {
+  private serverConfig() {
     this.server.use(express.json({ limit: '1mb' }));
     this.server.use(express.urlencoded({ extended: true }));
   }
@@ -25,8 +26,11 @@ export class Server {
 
   public async createServer() {
     try {
-      this.config();
+      this.serverConfig();
       await this.healthCheckDb();
+      this.server.listen(port, () => {
+        console.log(`Listening on port ${port} ....`);
+      });
     } catch (err) {
       console.log(`There has been some error: ${err}`);
     }
