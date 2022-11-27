@@ -19,3 +19,7 @@ export const createTokens = async (user: UserLogin) => {
 
   return [createToken, createRefreshToken];
 };
+
+export const tryLogin = async () => {
+  const user;
+};
