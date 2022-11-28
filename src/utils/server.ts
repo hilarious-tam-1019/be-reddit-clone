@@ -1,5 +1,8 @@
 import express from 'express';
 import prisma from './config/prisma-client.config';
+import session from 'express-session';
+import connectRedis from 'connect-redis';
+import Redis from './config/redis.config';
 
 const port = process.env['PORT'] || 3000;
 export class Server {
@@ -12,6 +15,26 @@ export class Server {
   private serverConfig() {
     this.server.use(express.json({ limit: '1mb' }));
     this.server.use(express.urlencoded({ extended: true }));
+  }
+
+  private setUpSession() {
+    const RedisStore = connectRedis(session);
+    this.server.use(
+      session({
+        store: new RedisStore({
+          client: Redis as any,
+        }),
+        secret: 'secret',
+        resave: false,
+        saveUninitialized: false,
+        cookie: {
+          httpOnly: true,
+          // setting true when need secure connection for production
+          // seccure: process.env.NODE_ENV === 'production'
+          maxAge: 1000 * 60 * 60 * 24 * 7 * 365,
+        },
+      })
+    );
   }
 
   public async healthCheckDb() {
@@ -28,6 +51,7 @@ export class Server {
     try {
       this.serverConfig();
       await this.healthCheckDb();
+      this.setUpSession();
       this.server.listen(port, () => {
         console.log(`Listening on port ${port} ....`);
       });
