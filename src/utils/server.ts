@@ -3,6 +3,8 @@ import prisma from './config/prisma-client.config';
 import session from 'express-session';
 import connectRedis from 'connect-redis';
 import Redis from './config/redis.config';
+import { initApolloServer } from './apollo-server';
+import 'reflect-metadata';
 
 const port = process.env['PORT'] || 3000;
 export class Server {
@@ -51,6 +53,7 @@ export class Server {
     try {
       this.serverConfig();
       await this.healthCheckDb();
+      await initApolloServer(this.server);
       this.setUpSession();
       this.server.listen(port, () => {
         console.log(`Listening on port ${port} ....`);
