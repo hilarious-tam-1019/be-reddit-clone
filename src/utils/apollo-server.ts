@@ -1,13 +1,14 @@
 import { ApolloServer } from 'apollo-server-express';
 import { buildSchema } from 'type-graphql';
 import { Express } from 'express';
+import prisma from './config/prisma-client.config';
 
-export const initApolloServer = (app: Express) => {
+export const initApolloServer = async (app: Express) => {
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
       resolvers: [],
     }),
-    context: ({ req, res }) => ({ req, res }),
+    context: () => ({ prisma }),
   });
 
   apolloServer.applyMiddleware({ app, cors: false });
