@@ -4,9 +4,9 @@ import session from 'express-session';
 import connectRedis from 'connect-redis';
 import Redis from './config/redis.config';
 import { initApolloServer } from './apollo-server';
-import 'reflect-metadata';
 
 const port = process.env['PORT'] || 3000;
+
 export class Server {
   private server;
 
@@ -52,9 +52,16 @@ export class Server {
   public async createServer() {
     try {
       this.serverConfig();
+
+      // health checking database
       await this.healthCheckDb();
+
+      // init type-graphql
       await initApolloServer(this.server);
+
+      // setting up redis session
       this.setUpSession();
+
       this.server.listen(port, () => {
         console.log(`Listening on port ${port} ....`);
       });

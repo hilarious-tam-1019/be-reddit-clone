@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { Field, ID, ObjectType } from 'type-graphql';
 
 @ObjectType()
@@ -5,11 +6,11 @@ export class User {
   @Field(() => ID, { nullable: false })
   id: string;
 
-  @Field(() => ID, { nullable: false })
+  @Field({ nullable: false })
   username: string;
 
-  @Field(() => ID, { nullable: false })
+  @Field({ nullable: false })
   email: string;
 
-  // password: string;
+  password: string;
 }

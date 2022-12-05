@@ -1,16 +1,21 @@
-import { Mutation, Query, Resolver, UseMiddleware } from 'type-graphql';
+import 'reflect-metadata';
+import {
+  Mutation,
+  Query,
+  Resolver,
+  ResolverInterface,
+  UseMiddleware,
+} from 'type-graphql';
 import { User } from './user.dto';
 
 @Resolver(() => User)
 export class UserResolver {
-  @Query(() => User)
-  user() {
-    return {
-      id: '1231231',
-      email: 'asdasd@gmail.com',
-      username: 'asasdasd',
-      password: 'asdad',
-      post: [],
-    };
-  }
+  // @Query((returns) => User)
+  // async user() {
+  //   return {
+  //     id: 'asdasd',
+  //     email: 'asdasd',
+  //     username: 'asdawd',
+  //   };
+  // }
 }

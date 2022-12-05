@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { ApolloServer } from 'apollo-server-express';
 import { buildSchema } from 'type-graphql';
 import { Express } from 'express';
@@ -10,10 +11,10 @@ export const initApolloServer = async (app: Express) => {
       schema: await buildSchema({
         resolvers: [
           // TODO: path resolver
-          path.resolve(__dirname, '**', 'modules', '*.resolver.{js,ts}'),
+          __dirname + '/modules/**/*.resolver.{ts,js}',
         ],
       }),
-      context: () => ({ prisma }),
+      // context: () => ({ prisma }),
     });
 
     apolloServer.applyMiddleware({ app, cors: false });
