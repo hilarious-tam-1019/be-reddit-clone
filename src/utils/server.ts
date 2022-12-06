@@ -1,9 +1,9 @@
 import express from 'express';
-import prisma from './config/prisma-client.config';
 import session from 'express-session';
 import connectRedis from 'connect-redis';
 import Redis from './config/redis.config';
 import { initApolloServer } from './apollo-server';
+import prisma from './config/prisma-client.config';
 
 const port = process.env['PORT'] || 3000;
 

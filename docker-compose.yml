@@ -63,7 +63,7 @@ services:
       - '3000:3000'
     expose:
       - '3000'
-    command: yarn dev
+    command: [sh, -c, 'npx prisma migrate dev --name init && yarn dev']
     networks:
       - webnet
 
