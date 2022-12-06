@@ -19,7 +19,7 @@ export class Server {
     this.server.use(express.urlencoded({ extended: true }));
   }
 
-  private setUpSession() {
+  private async setUpSession() {
     const RedisStore = connectRedis(session);
     this.server.use(
       session({
@@ -60,7 +60,7 @@ export class Server {
       await initApolloServer(this.server);
 
       // setting up redis session
-      this.setUpSession();
+      await this.setUpSession();
 
       this.server.listen(port, () => {
         console.log(`Listening on port ${port} ....`);

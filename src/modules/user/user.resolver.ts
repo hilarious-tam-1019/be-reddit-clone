@@ -1,4 +1,3 @@
-import 'reflect-metadata';
 import {
   Mutation,
   Query,
@@ -8,14 +7,10 @@ import {
 } from 'type-graphql';
 import { User } from './user.dto';
 
-@Resolver(() => User)
+@Resolver()
 export class UserResolver {
-  // @Query((returns) => User)
-  // async user() {
-  //   return {
-  //     id: 'asdasd',
-  //     email: 'asdasd',
-  //     username: 'asdawd',
-  //   };
-  // }
+  @Query(() => String)
+  hello() {
+    return 'hello';
+  }
 }
