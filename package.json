@@ -11,7 +11,8 @@
     "dev": "nodemon --legacy-watch src/app.ts"
   },
   "prisma": {
-    "schema": "prisma/schema.prisma"
+    "schema": "prisma/schema.prisma",
+    "seed": "ts-node prisma/seed.ts"
   },
   "dependencies": {
     "apollo-server-express": "^3.11.1",

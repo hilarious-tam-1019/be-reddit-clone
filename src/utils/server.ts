@@ -39,7 +39,7 @@ export class Server {
     );
   }
 
-  public async healthCheckDb() {
+  public async healthCheckDB() {
     try {
       await prisma.$queryRaw`SELECT 1`.then(() =>
         console.log('Database connected ...')
@@ -54,7 +54,7 @@ export class Server {
       this.serverConfig();
 
       // health checking database
-      await this.healthCheckDb();
+      await this.healthCheckDB();
 
       // init type-graphql
       await initApolloServer(this.server);
