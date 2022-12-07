@@ -5,7 +5,8 @@ const { PrismaClient } = Prisma;
 const prisma = new PrismaClient();
 
 const seedingDB = async () => {
-  const tam = await prisma.user.upsert({
+  console.log('Start seeding ... ');
+  const user = await prisma.user.upsert({
     where: { email: 'tam@prisma.io ' },
     update: {},
     create: {
@@ -21,7 +22,8 @@ const seedingDB = async () => {
       },
     },
   });
-  console.log({ tam });
+  console.log(`Created user with id: ${user.id}`);
+  console.log(`Seeding finished`);
 };
 
 seedingDB()
