@@ -17,6 +17,7 @@ model User {
   password String
   username String? @unique
   post Post[]
+  confirmed Boolean @default(false)
 }
 
 model Post {

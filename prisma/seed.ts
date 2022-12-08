@@ -31,7 +31,7 @@ seedingDB()
     await prisma.$disconnect();
   })
   .catch(async (e) => {
-    console.log(e);
+    console.log(`Seeding database encouter some problem: \n`, e);
     await prisma.$disconnect();
     process.exit(1);
   });

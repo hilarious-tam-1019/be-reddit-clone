@@ -56,8 +56,6 @@ services:
     volumes:
       - .:/app
       - ./nodemon.json:/app/nodemon.json
-    env_file:
-      - .env
     container_name: reddit-server
     ports:
       - '3000:3000'
