@@ -65,7 +65,7 @@ services:
       [
         sh,
         -c,
-        'npx prisma migrate dev --name init && npx prisma db seed && yarn dev',
+        'cd prisma && rm -rf migrations && cd .. && npx prisma migrate dev --name init && npx prisma db seed && yarn dev',
       ]
     networks:
       - webnet

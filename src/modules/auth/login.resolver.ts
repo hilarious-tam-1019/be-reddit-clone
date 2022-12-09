@@ -1,4 +1,4 @@
-import { Arg, Ctx, Mutation, Resolver } from 'type-graphql';
+import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql';
 import bcrypt from 'bcrypt';
 
 import prisma from '../../config/prismaClient.config';
@@ -8,6 +8,11 @@ import { Login } from './model/login.model';
 
 @Resolver((of) => Login)
 export class LoginResolver {
+  @Query(() => String)
+  async hello() {
+    return 'hello world!';
+  }
+
   @Mutation(() => Login, { nullable: true })
   async login(
     @Arg('data') data: LoginInput,

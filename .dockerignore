@@ -3,3 +3,6 @@ node_modules
 .git
 build.sh
 rebuild.sh
+README.md
+
+# ? Do we need to ignore prisma/migrations for dev environment??
