@@ -1,10 +1,10 @@
 import express from 'express';
 import session from 'express-session';
 import connectRedis from 'connect-redis';
-import Redis from '../src/config/redis.config';
+import Redis from '@/config/redis.config';
 
-import { healthCheckDB } from './utils/healthcheckDB';
-import { apolloServer } from './utils/apolloServer';
+import { healthCheckDB } from '@/utils/healthcheckDB';
+import { apolloServer } from '@/utils/apolloServer';
 
 const port = process.env['PORT'] || 3000;
 

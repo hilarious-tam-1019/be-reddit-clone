@@ -14,7 +14,12 @@
     "strict": true /* Enable all strict type-checking options. */,
     "noImplicitAny": true /* Enable error reporting for expressions and declarations with an implied 'any' type. */,
     "strictPropertyInitialization": false /* Check for class properties that are declared but not set in the constructor. */,
-    "skipLibCheck": true /* Skip type checking all .d.ts files. */
+    "skipLibCheck": true /* Skip type checking all .d.ts files. */,
+    "rootDirs": ["./src"],
+    "paths": {
+      "@/*": ["*"]
+    },
+    "typeRoots": ["./src/types/typing-stubs", "./node_modules/@types"]
   },
   "exclude": ["node_modules"],
   "include": ["./src/**/*.tsx", "./src/**/*.ts"]

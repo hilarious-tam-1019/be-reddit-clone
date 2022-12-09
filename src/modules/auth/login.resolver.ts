@@ -1,10 +1,12 @@
 import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql';
 import bcrypt from 'bcrypt';
 
-import prisma from '../../config/prismaClient.config';
-import { CustomContext } from '../../types/context';
-import { LoginInput } from './input/login.input';
-import { Login } from './model/login.model';
+import prisma from '@/config/prismaClient.config';
+import { CustomContext } from '@/types/context';
+import { LoginInput } from '@/modules/auth/input/login.input';
+import { Login } from '@/modules/auth/model/login.model';
+
+import Redis from '@/config/redis.config';
 
 @Resolver((of) => Login)
 export class LoginResolver {
@@ -17,9 +19,10 @@ export class LoginResolver {
   async login(
     @Arg('data') data: LoginInput,
     @Ctx() ctx: CustomContext
-  ): Promise<Login | null> {
+  ): Promise<Login | any> {
     const { email, password, username } = data;
-    const sessionId = ctx.req.session.id;
+
+    const sessionId = ctx.req.session.userId?.email;
     // TODO: checking cache for sessionId;
 
     const user = await prisma.user.findUnique({ where: { email } });

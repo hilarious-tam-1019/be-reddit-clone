@@ -5,6 +5,7 @@ WORKDIR /app
 # copy packages to dir
 COPY package.json .
 COPY yarn.lock .
+COPY tsconfig.json .
 COPY prisma ./prisma
 
 # install dependencies

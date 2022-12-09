@@ -1,8 +1,8 @@
 import 'reflect-metadata';
 import { ApolloServer } from 'apollo-server-express';
 import { Express } from 'express';
-import { schemaBuilder } from './schemaBuilder';
-import prisma from '../config/prismaClient.config';
+import { schemaBuilder } from '@/utils/schemaBuilder';
+import prisma from '@/config/prismaClient.config';
 
 export const apolloServer = async (app: Express) => {
   try {
