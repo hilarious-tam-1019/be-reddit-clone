@@ -6,8 +6,6 @@ import { CustomContext } from '@/types/context';
 import { LoginInput } from '@/modules/auth/input/login.input';
 import { Login } from '@/modules/auth/model/login.model';
 
-import Redis from '@/config/redis.config';
-
 @Resolver((of) => Login)
 export class LoginResolver {
   @Query(() => String)
@@ -21,9 +19,6 @@ export class LoginResolver {
     @Ctx() ctx: CustomContext
   ): Promise<Login | any> {
     const { email, password, username } = data;
-
-    const sessionId = ctx.req.session.userId?.email;
-    // TODO: checking cache for sessionId;
 
     const user = await prisma.user.findUnique({ where: { email } });
 
@@ -39,12 +34,10 @@ export class LoginResolver {
 
     // TODO: checking confirmation of email
 
-    // TODO: assigning `user.id` to req.session.userId
+    ctx.req.session.userId = { ...data };
 
     return {
-      id: user.id,
-      email: user.email,
-      username: user.username,
+      ...user,
     };
   }
 }

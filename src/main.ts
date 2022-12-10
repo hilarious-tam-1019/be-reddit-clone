@@ -20,7 +20,9 @@ async function main() {
     app.use(
       session({
         store: new RedisStore({
-          client: Redis as any,
+          client: Redis,
+          ttl: 1000 * 60 * 60,
+          prefix: 'user-session:',
         }),
         secret: 'secret',
         resave: false,

@@ -13,4 +13,12 @@ const options: RedisOptions = {
 
 const Redis = new IORedis({ ...options });
 
+Redis.on('error', (err) => {
+  console.log('redis running into some trouble: \n', err);
+});
+
+Redis.on('connection', () => {
+  console.log('redis connection started ...');
+});
+
 export default Redis;

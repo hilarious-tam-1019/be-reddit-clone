@@ -50,7 +50,7 @@ services:
       - postgres
     environment:
       - PORT=3000
-      - REDIS_HOST=localhost
+      - REDIS_HOST=redis
       - REDIS_PORT=6379
       - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/reddit?schema=public
     volumes:
