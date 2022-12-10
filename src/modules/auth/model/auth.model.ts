@@ -2,7 +2,7 @@ import { IsEmail } from 'class-validator';
 import { Field, ID, ObjectType } from 'type-graphql';
 
 @ObjectType()
-export class Login {
+export class Auth {
   @Field(() => ID)
   id: number;
 
