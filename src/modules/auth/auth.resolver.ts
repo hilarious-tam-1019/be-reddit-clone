@@ -20,9 +20,10 @@ export class AuthResolver {
   ): Promise<Auth | any> {
     let user;
     try {
-      user = await prisma.user.create({ data });
+      // hashed password before saving to the database
+      data.password = await bcrypt.hash(data.password, 12);
 
-      //setting session in user cookie jar
+      user = await prisma.user.create({ data });
     } catch (e) {
       console.log('Trouble during row creation: \n', e);
       throw new Error('Email or username is already in use');
@@ -61,5 +62,20 @@ export class AuthResolver {
     return {
       ...user,
     };
+  }
+
+  @Mutation(() => Boolean)
+  async logout(@Ctx() ctx: CustomContext): Promise<any> {
+    return new Promise((res, rej) => {
+      ctx.req.session.destroy((err) => {
+        if (err) {
+          console.log(err);
+          return rej(false);
+        }
+
+        ctx.res.clearCookie('connect.sid');
+        return res(true);
+      });
+    });
   }
 }

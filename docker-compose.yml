@@ -52,7 +52,7 @@ services:
       - PORT=3000
       - REDIS_HOST=redis
       - REDIS_PORT=6379
-      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/reddit?schema=public
+      - DATABASE_URL=postgresql://postgres:postgres@postgres/reddit?schema=public
     volumes:
       - .:/app
       - ./nodemon.json:/app/nodemon.json
