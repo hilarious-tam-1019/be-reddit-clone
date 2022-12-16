@@ -2,8 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
-  binaryTargets=["native", "linux-musl"]
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl"]
 }
 
 datasource db {
@@ -11,20 +11,57 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id Int @id @default(autoincrement())
-  email String @unique
-  password String
-  username String? @unique
-  post Post[]
-  confirmed Boolean @default(false)
+model users {
+  id        Int        @id @default(autoincrement())
+  email     String     @unique
+  password  String
+  username  String?    @unique
+  post      posts[]
+  confirmed Boolean    @default(false)
+  votes     votes[]
+  comments  comments[]
 }
 
-model Post {
-  id Int @id @default(autoincrement())
-  title String
-  content String?
-  likes Int
-  author User @relation(fields: [authorId], references: [id])
-  authorId Int
+model posts {
+  id         Int      @id @default(autoincrement())
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  published  Boolean
+  title      String
+  content    String?
+  user       users    @relation(fields: [user_id], references: [id])
+  user_id    Int
+
+  votes    votes[]
+  comments comments[]
+}
+
+model votes {
+  post     posts      @relation(fields: [post_id], references: [id])
+  post_id  Int
+  user     users      @relation(fields: [user_id], references: [id])
+  user_id  Int
+  vote     karma      @default(none)
+  comments comments[]
+
+  @@id([post_id, user_id])
+}
+
+model comments {
+  id           Int      @id @default(autoincrement())
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+  post         posts    @relation(fields: [post_id], references: [id])
+  post_id      Int
+  user         users    @relation(fields: [user_id], references: [id])
+  user_id      Int
+  vote         votes    @relation(fields: [votesPost_id, votesUser_id], references: [post_id, user_id])
+  votesPost_id Int
+  votesUser_id Int
+}
+
+enum karma {
+  upvote
+  none
+  downvote
 }

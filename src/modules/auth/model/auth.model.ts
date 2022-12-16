@@ -12,4 +12,7 @@ export class Auth {
 
   @Field(() => String, { nullable: true })
   username?: string | null;
+
+  @Field(() => Boolean)
+  confirmed?: Boolean;
 }
