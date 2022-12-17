@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 
 const seedingDB = async () => {
   console.log('Start seeding ... ');
-  const user = await prisma.user.upsert({
+  const user = await prisma.users.upsert({
     where: { email: 'tam@prisma.io ' },
     update: {},
     create: {
@@ -17,7 +17,6 @@ const seedingDB = async () => {
         create: {
           title: 'Check out Prisma with Next.js',
           content: 'https://www.prisma.io/nextjs',
-          likes: 0,
         },
       },
     },

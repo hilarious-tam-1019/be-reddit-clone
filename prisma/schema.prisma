@@ -26,7 +26,7 @@ model posts {
   id         Int      @id @default(autoincrement())
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
-  published  Boolean
+  published  Boolean  @default(false)
   title      String
   content    String?
   user       users    @relation(fields: [user_id], references: [id])
@@ -48,16 +48,17 @@ model votes {
 }
 
 model comments {
-  id           Int      @id @default(autoincrement())
-  created_at   DateTime @default(now())
-  updated_at   DateTime @updatedAt
-  post         posts    @relation(fields: [post_id], references: [id])
-  post_id      Int
-  user         users    @relation(fields: [user_id], references: [id])
-  user_id      Int
-  vote         votes    @relation(fields: [votesPost_id, votesUser_id], references: [post_id, user_id])
-  votesPost_id Int
-  votesUser_id Int
+  id         Int      @id @default(autoincrement())
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  post       posts    @relation(fields: [post_id], references: [id])
+  post_id    Int
+  user       users    @relation(fields: [user_id], references: [id])
+  user_id    Int
+
+  votes        votes? @relation(fields: [votesPost_id, votesUser_id], references: [post_id, user_id])
+  votesPost_id Int?
+  votesUser_id Int?
 }
 
 enum karma {

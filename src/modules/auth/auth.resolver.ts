@@ -23,7 +23,7 @@ export class AuthResolver {
       // hashed password before saving to the database
       data.password = await bcrypt.hash(data.password, 12);
 
-      user = await prisma.user.create({ data });
+      user = await prisma.users.create({ data });
     } catch (e) {
       console.log('Trouble during row creation: \n', e);
       throw new Error('Email or username is already in use');
@@ -43,7 +43,7 @@ export class AuthResolver {
   ): Promise<Auth | any> {
     const { email, password, username } = data;
 
-    const user = await prisma.user.findUnique({ where: { email } });
+    const user = await prisma.users.findUnique({ where: { email } });
 
     if (!user) {
       return null;
